@@ -1,1 +1,11 @@
-<p>photo-card works!</p>
+<div class="photo-card">
+  <img [src]="photoData.url" [alt]="photoData.title" style="width: 100%; height: 200px; object-fit: cover;">
+
+  <div class="card-body">
+    <h3 class="card-title">{{ photoData.title }}</h3>
+    <p class="card-author">Автор: {{ photoData.author }}</p>
+    <p class="card-views">Переглядів: {{ photoData.views }}</p>
+
+    <button class="btn-details">Детальніше</button>
+  </div>
+</div>
