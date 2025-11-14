@@ -1,8 +1,13 @@
 <div class="photo-card">
   <img class="photo-card-img" [src]="photoData.pImage" [alt]="photoData.title" style="width: 100%; height: 200px; object-fit: cover;">
 
+  <div class="photo-card-container"
+       [ngClass]="{'popular-card-highlight': photoData.views > 5000}">
+  </div>
+
   <div class="card-body">
     <h3 class="card-title">{{ photoData.title }}</h3>
+    <span *ngIf="photoData.isPremium" class="premium-badge">⭐ PREMIUM</span>
     <p class="card-author">Автор: {{ photoData.author }}</p>
     <p class="card-views">Переглядів: {{ photoData.views }}</p>
 

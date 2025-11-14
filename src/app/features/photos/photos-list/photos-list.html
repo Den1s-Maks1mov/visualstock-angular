@@ -1,21 +1,9 @@
 <div class="container mt-4">
-  <h2>Фотографії</h2>
 
   <div class="flex-row-container">
-    <div class="col-md-4 mb-4">
-      <app-photo-card></app-photo-card>
-    </div>
 
-    <div class="col-md-4 mb-4">
-      <app-photo-card></app-photo-card>
-    </div>
-
-    <div class="col-md-4 mb-4">
-      <app-photo-card></app-photo-card>
-    </div>
-
-    <div class="col-md-4 mb-4">
-      <app-photo-card></app-photo-card>
+    <div class="col-md-4 mb-4" *ngFor="let photo of photos">
+      <app-photo-card [photoData]="photo"></app-photo-card>
     </div>
 
   </div>

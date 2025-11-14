@@ -59,3 +59,9 @@
   cursor: pointer;
   margin-top: 10px;
 }
+
+.popular-card-highlight {
+  border: 3px solid #F2B705;
+  box-shadow: 0 4px 15px rgba(255, 170, 0, 0.4);
+}
+
