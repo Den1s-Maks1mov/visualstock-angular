@@ -16,9 +16,9 @@ import {PhotoCard} from '../photo-card/photo-card';
 export class PhotosList {
 // Масив mock-даних
   photos: Photo[] = [
-    { id: '1', title: 'Mountain lake Vista', author: 'Nikita2504', url: 'assets/photo-1.jpg', views: 1240, isPremium: false, tags: ['nature', 'landscape'], uploadDate: new Date('2024-06-15') },
-    { id: '2', title: 'Minimalist coffee break', author: 'Janet 2389.', url: 'assets/photo-2.jpg', views: 80, isPremium: false, tags: ['food', 'lifestyle'], uploadDate: new Date('2024-07-20') },
-    { id: '3', title: 'Neon Cyberpunk City', author: 'Mike Clubnika.', url: 'assets/photo-3.jpg', views: 5200, isPremium: true, tags: ['city', 'neon', 'tech'], uploadDate: new Date('2024-05-10') },
-    { id: '4', title: 'High contrast Street Life', author: 'V1ktor1', url: 'assets/photo-4.jpg', views: 85000, isPremium: true, tags: ['city', 'monochrome', 'street photography', 'architecture'], uploadDate: new Date('2024-04-01') },
+    { id: '1', title: 'Mountain lake Vista', author: 'Nikita2504', pImage: 'assets/photo-1.jpg', views: 1240, isPremium: false, tags: ['nature', 'landscape'], uploadDate: new Date('2024-06-15') },
+    { id: '2', title: 'Minimalist coffee break', author: 'Janet 2389.', pImage: 'assets/photo-2.jpg', views: 80, isPremium: false, tags: ['food', 'lifestyle'], uploadDate: new Date('2024-07-20') },
+    { id: '3', title: 'Neon Cyberpunk City', author: 'Mike Clubnika.', pImage: 'assets/photo-3.jpg', views: 5200, isPremium: true, tags: ['city', 'neon', 'tech'], uploadDate: new Date('2024-05-10') },
+    { id: '4', title: 'High contrast Street Life', author: 'V1ktor1', pImage: 'assets/photo-4.jpg', views: 85000, isPremium: true, tags: ['city', 'monochrome', 'street photography', 'architecture'], uploadDate: new Date('2024-04-01') },
   ];
 }

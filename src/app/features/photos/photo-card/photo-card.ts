@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Photo } from '../../../core/models/photo.interface';
 
 @Component({
   selector: 'app-photo-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './photo-card.html',
   styleUrl: './photo-card.css',
 })
@@ -15,7 +14,7 @@ export class PhotoCard {
     id: '0',
     title: 'Placeholder',
     author: 'N/A',
-    url: '',
+    pImage: "./assets/images/photo-error.png",
     views: 0,
     isPremium: false,
     tags: ['initial', 'test'],
