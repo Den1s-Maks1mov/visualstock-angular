@@ -11,13 +11,13 @@ import { Photo } from '../../../core/models/photo.interface';
 export class PhotoCard {
   // Чорнетка для статичного відображення
   photoData: Photo = {
-    id: '0',
-    title: 'Placeholder',
-    author: 'N/A',
-    pImage: "./assets/images/photo-error.png",
-    views: 0,
+    id: '1',
+    title: 'Mountain lake Vista',
+    author: 'Nikita2504',
+    pImage: "assets/images/photo-1.jpg",
+    views: 1240,
     isPremium: false,
-    tags: ['initial', 'test'],
-    uploadDate: new Date('2024-01-01')
+    tags: ['nature', 'landscape'],
+    uploadDate: new Date('2024-06-15')
   };
 }
