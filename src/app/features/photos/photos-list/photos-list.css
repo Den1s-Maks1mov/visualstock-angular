@@ -5,3 +5,24 @@
   padding: 10px 10px 10px 10px;
   gap: 20px;
 }
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.search-input {
+  padding: 10px 15px;
+  width: 600px;
+  max-width: 90%;
+  font-size: 1.1em;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s;
+}
+
+.search-input:focus {
+  border-color: #007bff;
+  outline: none;
+}

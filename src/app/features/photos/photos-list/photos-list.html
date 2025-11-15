@@ -1,10 +1,21 @@
-<div class="container mt-4">
+<div class="container">
+
+  <div class="search-container">
+
+    <input type="text"
+           placeholder="Пошук за назвою або автором..."
+           [(ngModel)]="searchTerm"
+           name="searchTerm"
+           class="search-input">
+
+  </div>
 
   <div class="flex-row-container">
 
-    <div class="col-md-4 mb-4" *ngFor="let photo of photos">
-      <app-photo-card [photoData]="photo"></app-photo-card>
-    </div>
+    <app-photo-card *ngFor="let photo of filteredPhotos"
+                    [photoData]="photo"
+                    (onSelect)="handlePhotoSelection($event)">
+    </app-photo-card>
 
   </div>
 </div>
