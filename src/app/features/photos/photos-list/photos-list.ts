@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Photo } from '../../../core/models/photo.interface';
 import {PhotoCard} from '../photo-card/photo-card';
 import { FormsModule } from '@angular/forms';
+import { PhotoData } from '../../../core/services/photo-data';
 
 @Component({
   selector: 'app-photos-list',
@@ -15,14 +16,11 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './photos-list.css',
 })
 
-export class PhotosList {
+export class PhotosList implements OnInit{
 // Масив mock-даних
-  photos: Photo[] = [
-    { id: '1', title: 'Mountain lake Vista', author: 'Nikita2504', pImage: 'assets/images/photo-1.jpg', views: 1240, isPremium: false, tags: ['nature', 'landscape'], uploadDate: new Date('2024-06-15') },
-    { id: '2', title: 'Minimalist coffee break', author: 'Janet 2389', pImage: 'assets/images/photo-2.jpg', views: 80, isPremium: false, tags: ['food', 'lifestyle'], uploadDate: new Date('2024-07-20') },
-    { id: '3', title: 'Neon Cyberpunk City', author: 'Mike Clubnika', pImage: 'assets/images/photo-3.jpg', views: 5200, isPremium: false, tags: ['city', 'neon', 'tech'], uploadDate: new Date('2024-05-10') },
-    { id: '4', title: 'High contrast Street Life', author: 'V1ktor1', pImage: 'assets/images/photo-4.jpg', views: 85000, isPremium: true, tags: ['city', 'monochrome', 'street photography', 'architecture'], uploadDate: new Date('2024-04-01') },
-  ];
+  photos: Photo[] = [];
+
+  constructor(private photoData: PhotoData) { };
 
   searchTerm: string = '';
 
@@ -40,5 +38,9 @@ export class PhotosList {
 
   handlePhotoSelection(photo: Photo): void {
     console.log(`[EVENT] Обрано фотографію: ${photo.title} (ID: ${photo.id}). Переглядів: ${photo.views}`);
+  };
+
+  ngOnInit(): void {
+    this.photos = this.photoData.getItems();
   }
 }
