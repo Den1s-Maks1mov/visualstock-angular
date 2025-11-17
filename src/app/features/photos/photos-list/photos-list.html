@@ -12,7 +12,7 @@
 
   <div class="flex-row-container">
 
-    <app-photo-card *ngFor="let photo of filteredPhotos"
+    <app-photo-card *ngFor="let photo of photos"
                     [photoData]="photo"
                     (onSelect)="handlePhotoSelection($event)">
     </app-photo-card>

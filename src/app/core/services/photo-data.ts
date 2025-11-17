@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Photo} from '../models/photo.interface';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +13,23 @@ export class PhotoData {
     { id: '4', title: 'High contrast Street Life', author: 'V1ktor1', pImage: 'assets/images/photo-4.jpg', views: 85000, isPremium: true, tags: ['city', 'monochrome', 'street photography', 'architecture'], uploadDate: new Date('2024-04-01') },
   ];
 
-  getItems(): Photo[] {
-    return this.photos;
-  }
+  private photosSubject = new BehaviorSubject<Photo[]>(this.photos);
 
+  public photos$: Observable<Photo[]> = this.photosSubject.asObservable();
+
+  filterItems(searchTerm: string): void {
+    if (!searchTerm) {
+      this.photosSubject.next(this.photos);
+      return;
+    }
+
+    const term = searchTerm.toLowerCase();
+
+    const filtered = this.photos.filter(photo =>
+      photo.title.toLowerCase().includes(term) ||
+      photo.author.toLowerCase().includes(term)
+    );
+
+    this.photosSubject.next(filtered);
+  }
 }

@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Photo } from '../../../core/models/photo.interface';
 import {PhotoCard} from '../photo-card/photo-card';
 import { FormsModule } from '@angular/forms';
 import { PhotoData } from '../../../core/services/photo-data';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-photos-list',
+  standalone: true,
   imports: [
     CommonModule,
     PhotoCard,
@@ -16,31 +18,37 @@ import { PhotoData } from '../../../core/services/photo-data';
   styleUrl: './photos-list.css',
 })
 
-export class PhotosList implements OnInit{
+export class PhotosList implements OnInit, OnDestroy{
 // Масив mock-даних
   photos: Photo[] = [];
 
+  private _searchTerm: string = '';
+  get searchTerm(): string {
+    return this._searchTerm;
+  }
+
+  set searchTerm(value: string) {
+    this._searchTerm = value;
+    this.photoData.filterItems(value);
+  }
+
+  private dataSubscription: Subscription | undefined;
+
   constructor(private photoData: PhotoData) { };
-
-  searchTerm: string = '';
-
-  get filteredPhotos(): Photo[] {
-    if (!this.searchTerm) {
-      return this.photos;
-    }
-    const term = this.searchTerm.toLowerCase();
-
-    return this.photos.filter(photo =>
-      photo.title.toLowerCase().includes(term) ||
-      photo.author.toLowerCase().includes(term)
-    );
-  };
 
   handlePhotoSelection(photo: Photo): void {
     console.log(`[EVENT] Обрано фотографію: ${photo.title} (ID: ${photo.id}). Переглядів: ${photo.views}`);
   };
 
   ngOnInit(): void {
-    this.photos = this.photoData.getItems();
+    this.dataSubscription = this.photoData.photos$.subscribe({
+      next: (data: Photo[]) => {
+        this.photos = data;
+      }
+    });
   }
+
+    ngOnDestroy(): void {
+      this.dataSubscription?.unsubscribe();
+    }
 }
