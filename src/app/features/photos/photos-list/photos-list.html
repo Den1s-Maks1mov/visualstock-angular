@@ -7,14 +7,12 @@
            [(ngModel)]="searchTerm"
            name="searchTerm"
            class="search-input">
-
   </div>
 
   <div class="flex-row-container">
 
     <app-photo-card *ngFor="let photo of photos"
-                    [photoData]="photo"
-                    (onSelect)="handlePhotoSelection($event)">
+                    [photoData]="photo">
     </app-photo-card>
 
   </div>

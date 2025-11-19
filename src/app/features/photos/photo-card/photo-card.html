@@ -11,6 +11,9 @@
     <p class="card-author">Автор: {{ photoData.author }}</p>
     <p class="card-views">Переглядів: {{ photoData.views }}</p>
 
-    <button class="btn-details" (click)="onDetailsClick()">Детальніше</button>
+    <a [routerLink]="['/photos', photoData.id]"
+       class="btn btn-details">
+      Детальніше
+    </a>
   </div>
 </div>

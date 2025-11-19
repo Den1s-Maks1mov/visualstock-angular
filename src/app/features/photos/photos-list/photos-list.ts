@@ -36,10 +36,6 @@ export class PhotosList implements OnInit, OnDestroy{
 
   constructor(private photoData: PhotoData) { };
 
-  handlePhotoSelection(photo: Photo): void {
-    console.log(`[EVENT] Обрано фотографію: ${photo.title} (ID: ${photo.id}). Переглядів: ${photo.views}`);
-  };
-
   ngOnInit(): void {
     this.dataSubscription = this.photoData.photos$.subscribe({
       next: (data: Photo[]) => {

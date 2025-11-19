@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Photo} from '../models/photo.interface';
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, map, find } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -31,5 +31,11 @@ export class PhotoData {
     );
 
     this.photosSubject.next(filtered);
+  };
+
+  getPhotoById(id: string): Observable<Photo | undefined> {
+    return this.photosSubject.asObservable().pipe(
+      map(photos => photos.find(photo => photo.id === id))
+    );
   }
 }

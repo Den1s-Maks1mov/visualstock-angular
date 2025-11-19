@@ -1,0 +1,44 @@
+<div class="container mt-5 details-container">
+
+  <div class="mb-4">
+    <a [routerLink]="['/photos']" class="btn-back">
+      &#8592; Назад до списку
+    </a>
+  </div>
+
+  <div *ngIf="photo$ | async as photo" class="details-content">
+
+    <div class="details-header">
+      <h2>{{ photo.title }}</h2>
+      <p *ngIf="photo.isPremium" class="premium-status">
+        ⭐ Premium-контент
+      </p>
+    </div>
+
+    <div class="flex-row-container">
+
+      <div class="col-md-7">
+        <img [src]="photo.pImage" [alt]="photo.title" class="details-image">
+      </div>
+
+      <div class="col-md-5">
+        <div class="info-section meta-info">
+          <h4>Інформація про зображення</h4>
+
+          <p><strong>ID:</strong> {{ photo.id }}</p>
+          <p><strong>Автор:</strong> {{ photo.author }}</p>
+          <p><strong>Переглядів:</strong> {{ photo.views }}</p>
+          <p><strong>Завантажено:</strong> {{ photo.uploadDate | date: 'dd.MM.yyyy' }}</p>
+
+          <div class="meta-tags">
+            <h4>Теги</h4>
+            <span *ngFor="let tag of photo.tags"
+                  class="tag-badge">
+                  {{ tag }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
