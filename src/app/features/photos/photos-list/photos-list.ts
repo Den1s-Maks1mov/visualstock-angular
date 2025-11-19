@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import {AsyncPipe, CommonModule} from '@angular/common';
 import { Photo } from '../../../core/models/photo.interface';
 import {PhotoCard} from '../photo-card/photo-card';
 import { FormsModule } from '@angular/forms';
 import { PhotoData } from '../../../core/services/photo-data';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-photos-list',
@@ -12,15 +12,15 @@ import { Subscription } from 'rxjs';
   imports: [
     CommonModule,
     PhotoCard,
-    FormsModule
+    FormsModule,
+    AsyncPipe
   ],
   templateUrl: './photos-list.html',
   styleUrl: './photos-list.css',
 })
 
-export class PhotosList implements OnInit, OnDestroy{
-// Масив mock-даних
-  photos: Photo[] = [];
+export class PhotosList implements OnInit{
+  photos$!: Observable<Photo[]>;
 
   private _searchTerm: string = '';
   get searchTerm(): string {
@@ -32,19 +32,9 @@ export class PhotosList implements OnInit, OnDestroy{
     this.photoData.filterItems(value);
   }
 
-  private dataSubscription: Subscription | undefined;
-
   constructor(private photoData: PhotoData) { };
 
   ngOnInit(): void {
-    this.dataSubscription = this.photoData.photos$.subscribe({
-      next: (data: Photo[]) => {
-        this.photos = data;
-      }
-    });
+    this.photos$ = this.photoData.photos$;
   }
-
-    ngOnDestroy(): void {
-      this.dataSubscription?.unsubscribe();
-    }
 }

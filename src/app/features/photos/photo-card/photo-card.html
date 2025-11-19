@@ -1,12 +1,13 @@
-<div class="photo-card">
+<div appCardHover class="photo-card">
   <img class="photo-card-img" [src]="photoData.pImage" [alt]="photoData.title">
 
   <div class="photo-card-container"
-       [ngClass]="{'popular-card-highlight': photoData.views > 5000}">
+       [ngClass]="{'popular-card-highlight': photoData.views > 5000}"
+       >
   </div>
 
   <div class="card-body">
-    <h3 class="card-title">{{ photoData.title }}</h3>
+    <h3 class="card-title">{{ photoData.title | truncate: 30}}</h3>
     <span *ngIf="photoData.isPremium" class="premium-badge">⭐ PREMIUM</span>
     <p class="card-author">Автор: {{ photoData.author }}</p>
     <p class="card-views">Переглядів: {{ photoData.views }}</p>
@@ -16,4 +17,7 @@
       Детальніше
     </a>
   </div>
+
+
+
 </div>

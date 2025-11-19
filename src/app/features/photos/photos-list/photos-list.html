@@ -11,9 +11,13 @@
 
   <div class="flex-row-container">
 
-    <app-photo-card *ngFor="let photo of photos"
+    <app-photo-card *ngFor="let photo of photos$ | async"
                     [photoData]="photo">
     </app-photo-card>
+
+    <ng-template *ngIf="!(photos$ | async)?.length">
+      <p style="margin: 20px;">Фотографій за вашим запитом не знайдено.</p>
+    </ng-template>
 
   </div>
 </div>
