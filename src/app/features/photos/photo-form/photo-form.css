@@ -1,0 +1,133 @@
+.details-container {
+  background-color: #f8f8f8;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 30px;
+}
+
+.card-title {
+  color: #333;
+  font-weight: 600;
+}
+
+.btn-back {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #6c757d;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.btn-back:hover {
+  background-color: #5a6268;
+}
+
+.drag-drop-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: 300px;
+  margin-bottom: 20px;
+
+  background-color: #e9ecef;
+  border: 3px dashed #ced4da;
+  border-radius: 10px;
+
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+}
+
+.drag-drop-area.drag-over {
+  background-color: #d1e7dd;
+  border-color: #0f5132;
+}
+
+.placeholder-text {
+  color: #6c757d;
+  font-size: 1.1em;
+  font-weight: 500;
+}
+
+.img-preview {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.clear-image-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(220, 53, 69, 0.9);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 1.2em;
+  font-weight: bold;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 10;
+}
+.clear-image-btn:hover {
+  background: #dc3545;
+}
+
+.form-label-dark {
+  color: #343a40;
+  font-weight: 600;
+}
+
+.field-spacing {
+  margin-bottom: 1.5rem !important;
+}
+
+.form-control {
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.form-row{
+  display: flex;
+  flex-direction: row;
+  gap: 100px;
+  justify-content: center;
+}
+
+.btn-submit-action {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 10px;
+  font-size: 1.1em;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.btn-submit-action:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+.btn-submit-action:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.form-control.ng-invalid.ng-touched {
+  border-color: #dc3545;
+}
+
+.text-danger {
+  color: #dc3545 !important;
+  font-size: 0.85em;
+}

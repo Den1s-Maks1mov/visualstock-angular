@@ -1,0 +1,82 @@
+<div class="container mt-5">
+
+  <div class="mb-4 button-back-container">
+    <a [routerLink]="['/photos']" class="btn-back">
+      &#8592; Назад до списку
+    </a>
+  </div>
+  <div class="card p-4 shadow-lg mx-auto form-details-container">
+    <h2 class="card-title text-center mb-4">Додати нову фотографію</h2>
+
+    <form class ="form-row" [formGroup]="photoForm" (ngSubmit)="onSubmit()">
+
+      <div class="row">
+
+        <div class="col-md-7">
+          <div class="drag-drop-area"
+               [class.drag-over]="isDragOver"
+               (drop)="onDrop($event)"
+               (dragover)="onDragOver($event)"
+               (dragleave)="onDragLeave($event)">
+
+            <ng-container *ngIf="previewUrl; else uploadPlaceholder">
+              <button type="button" class="clear-image-btn" (click)="clearImage()">
+                &times;
+              </button>
+              <img [src]="previewUrl" alt="Image Preview" class="img-preview">
+            </ng-container>
+
+            <ng-template #uploadPlaceholder>
+              <p class="placeholder-text">Перетягніть сюди зображення (PNG або JPEG)</p>
+              <input type="file" style="display: none;" (change)="onFileSelected($event)">
+            </ng-template>
+          </div>
+
+          <div *ngIf="pImage?.invalid && pImage?.touched" class="text-danger mt-2 text-center">
+            <small>Потрібно перетягнути коректний файл зображення.</small>
+          </div>
+        </div>
+
+
+      </div>
+      <div class="col-md-5 form-inputs-section">
+
+        <div class="mb-4 field-spacing">
+          <label for="title" class="form-label form-label-dark">Заголовок  </label>
+          <input type="text" id="title" class="form-control" formControlName="title">
+          <div *ngIf="title?.invalid && title?.touched" class="text-danger mt-1">
+            <small *ngIf="title?.errors?.['required']">Заголовок є обов'язковим.</small>
+          </div>
+        </div>
+
+        <div class="mb-4 field-spacing">
+          <label for="author" class="form-label form-label-dark">Автор  </label>
+          <input type="text" id="author" class="form-control" formControlName="author">
+          <div *ngIf="author?.invalid && author?.touched" class="text-danger mt-1">
+            <small *ngIf="author?.errors?.['required']">Автор є обов'язковим.</small>
+          </div>
+        </div>
+
+        <div class="mb-4 field-spacing">
+          <label for="tags" class="form-label form-label-dark">Теги (через кому)  </label>
+          <input type="text" id="tags" class="form-control" formControlName="tags">
+          <div *ngIf="tags?.invalid && tags?.touched" class="text-danger mt-1">
+            <small *ngIf="tags?.errors?.['required']">Потрібен хоча б один тег.</small>
+          </div>
+        </div>
+
+        <div class="form-check mb-4 field-spacing">
+          <input type="checkbox" id="isPremium" class="form-check-input" formControlName="isPremium">
+          <label class="form-check-label form-label-dark" for="isPremium">Преміум-контент</label>
+        </div>
+        <div class="mt-4">
+          <button type="submit" class="btn-submit-action" [disabled]="photoForm.invalid">
+            Додати фото
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+</div>
