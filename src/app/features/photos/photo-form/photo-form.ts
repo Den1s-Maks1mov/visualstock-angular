@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } 
 import { PhotoData } from '../../../core/services/photo-data';
 import { Photo } from '../../../core/models/photo.interface';
 import { Router, RouterLink } from '@angular/router';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser'; // <--- Імпорт Sanitize
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-photo-form',

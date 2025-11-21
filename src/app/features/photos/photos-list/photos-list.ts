@@ -5,6 +5,8 @@ import {PhotoCard} from '../photo-card/photo-card';
 import { FormsModule } from '@angular/forms';
 import { PhotoData } from '../../../core/services/photo-data';
 import { Observable, Subscription } from 'rxjs';
+import {RouterLink} from '@angular/router';
+import {CardHover} from '../../../shared/directives/card-hover';
 
 @Component({
   selector: 'app-photos-list',
@@ -13,7 +15,9 @@ import { Observable, Subscription } from 'rxjs';
     CommonModule,
     PhotoCard,
     FormsModule,
-    AsyncPipe
+    AsyncPipe,
+    RouterLink,
+    CardHover
   ],
   templateUrl: './photos-list.html',
   styleUrl: './photos-list.css',

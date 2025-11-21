@@ -7,6 +7,11 @@
            [(ngModel)]="searchTerm"
            name="searchTerm"
            class="search-input">
+
+    <a appCardHover [routerLink]="['/photos/add']"
+       class="add-photo-btn">
+      <img class="icon-add" src="assets/icons/photo-add.icon.png" alt="Додайте фото">
+    </a>
   </div>
 
   <div class="flex-row-container">

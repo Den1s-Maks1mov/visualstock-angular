@@ -38,4 +38,10 @@ export class PhotoData {
       map(photos => photos.find(photo => photo.id === id))
     );
   }
+
+  addPhoto(newPhoto: Photo): void {
+    this.photos.push(newPhoto);
+    this.photosSubject.next(this.photos);
+    this.filterItems('');
+  }
 }
