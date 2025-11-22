@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { PhotoData } from '../../../core/services/photo-data';
 import { Photo } from '../../../core/models/photo.interface';
-import { Observable } from 'rxjs';
+import {Observable, switchMap} from 'rxjs';
 
 @Component({
   selector: 'app-photo-details',
@@ -22,8 +22,17 @@ export class PhotoDetails {
   ) {}
 
   ngOnInit(): void {
-    this.photoId = this.route.snapshot.params['id'];
-
-    this.photo$ = this.photoDataService.getPhotoById(this.photoId);
+    // 1. Підписуємось на зміни параметрів маршруту
+    this.photo$ = this.route.paramMap.pipe(
+      // 2. Витягуємо ID та перемикаємо потік на HTTP-запит
+      switchMap(params => {
+        const photoId = params.get('id');
+        if (photoId) {
+          // Викликаємо оновлений сервісний метод
+          return this.photoDataService.getPhotoById(photoId);
+        }
+        return new Observable<undefined>(); // Повертаємо порожній Observable, якщо ID відсутній
+      })
+    );
   }
 }

@@ -39,6 +39,7 @@ export class PhotosList implements OnInit{
   constructor(private photoData: PhotoData) { };
 
   ngOnInit(): void {
+    this.photoData.fetchPhotos().subscribe();
     this.photos$ = this.photoData.photos$;
   }
 }

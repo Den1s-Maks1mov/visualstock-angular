@@ -32,10 +32,15 @@
 
           <div class="meta-tags">
             <h4>Теги</h4>
-            <span *ngFor="let tag of photo.tags"
-                  class="tag-badge">
-                  {{ tag }}
-            </span>
+            <ng-container *ngIf="photo.tags && photo.tags.length > 0; else noTags">
+              <span *ngFor="let tag of photo.tags" class="tag-badge">
+                #{{ tag }}
+                </span>
+            </ng-container>
+
+            <ng-template #noTags>
+              <span class="text-muted">Тегів немає</span>
+            </ng-template>
           </div>
         </div>
       </div>

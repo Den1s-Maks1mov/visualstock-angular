@@ -1,47 +1,130 @@
 import { Injectable } from '@angular/core';
 import {Photo} from '../models/photo.interface';
-import { Observable, BehaviorSubject, map, find } from 'rxjs';
+import {Observable, BehaviorSubject, map, find, catchError, throwError, of} from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
+
+// Функція для перетворення рядка "tag1, tag2" у масив
+const ensureTagsArray = (tagsData: any): string[] => {
+
+  if (Array.isArray(tagsData)) {
+    return tagsData.map(tag => String(tag).trim());
+  }
+
+  if (typeof tagsData === 'string') {
+    return tagsData.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
+  }
+  return [];
+};
 
 @Injectable({
   providedIn: 'root',
 })
+
+
 export class PhotoData {
-  private   photos: Photo[] = [
-    { id: '1', title: 'Mountain lake Vista', author: 'Nikita2504', pImage: 'assets/images/photo-1.jpg', views: 1240, isPremium: false, tags: ['nature', 'landscape'], uploadDate: new Date('2024-06-15') },
-    { id: '2', title: 'Minimalist coffee break', author: 'Janet 2389', pImage: 'assets/images/photo-2.jpg', views: 80, isPremium: false, tags: ['food', 'lifestyle'], uploadDate: new Date('2024-07-20') },
-    { id: '3', title: 'Neon Cyberpunk City', author: 'Mike Clubnika', pImage: 'assets/images/photo-3.jpg', views: 5200, isPremium: false, tags: ['city', 'neon', 'tech'], uploadDate: new Date('2024-05-10') },
-    { id: '4', title: 'High contrast Street Life', author: 'V1ktor1', pImage: 'assets/images/photo-4.jpg', views: 85000, isPremium: true, tags: ['city', 'monochrome', 'street photography', 'architecture'], uploadDate: new Date('2024-04-01') },
-  ];
+  private   photos: Photo[] = [];
+  private API_ENDPOINT = 'photos.json';
 
-  private photosSubject = new BehaviorSubject<Photo[]>(this.photos);
-
+  private photosSubject = new BehaviorSubject<Photo[]>([]);
   public photos$: Observable<Photo[]> = this.photosSubject.asObservable();
 
+  public searchTerm: string = '';
+
+  constructor(private http: HttpClient) { }
+
   filterItems(searchTerm: string): void {
+    // Логіка фільтрації, яка бере останнє значення (photosSubject.getValue) і оновлює Subject
+    const allPhotos = this.photosSubject.getValue();
     if (!searchTerm) {
-      this.photosSubject.next(this.photos);
+      this.photosSubject.next(allPhotos);
       return;
     }
 
     const term = searchTerm.toLowerCase();
-
-    const filtered = this.photos.filter(photo =>
+    const filtered = allPhotos.filter(photo =>
       photo.title.toLowerCase().includes(term) ||
       photo.author.toLowerCase().includes(term)
     );
 
     this.photosSubject.next(filtered);
-  };
+  }
 
   getPhotoById(id: string): Observable<Photo | undefined> {
-    return this.photosSubject.asObservable().pipe(
-      map(photos => photos.find(photo => photo.id === id))
+    const detailEndpoint = `photos/${id}.json`;
+
+    return this.http.get<Photo>(detailEndpoint).pipe(
+      map(response => {
+        if (!response) {
+          return undefined;
+        }
+
+        // Трансформація tags у масив
+        response.tags = ensureTagsArray(response.tags);
+
+        return { ...response, id: id };
+      }),
+      catchError(error => {
+        if (error.status === 404) {
+          return of(undefined);
+        }
+        // Перенаправлення помилки до загального обробника
+        return this.handleError(error);
+      })
+    );
+  }
+
+  // Метод GET - Отримання всіх фотографій
+  fetchPhotos(): Observable<Photo[]> {
+    return this.http.get<{[key: string]: Photo}>(this.API_ENDPOINT).pipe(
+      // Трансформація: Об'єкт Firebase -> Масив Photo[]
+      map(response => {
+        if (!response) return [];
+
+        const photosArray: Photo[] = [];
+        for (const key in response) {
+          if (response.hasOwnProperty(key)) {
+            const photo = response[key] as Photo;
+            photo.tags = ensureTagsArray(photo.tags);
+            photosArray.push({ ...photo, id: key });
+          }
+        }
+        return photosArray;
+      }),
+      // Оновлення BehaviorSubject
+      map(photos => {
+        this.photosSubject.next(photos);
+        return photos;
+      }),
+      // Обробка помилок
+      catchError(this.handleError.bind(this))
     );
   }
 
   addPhoto(newPhoto: Photo): void {
-    this.photos.push(newPhoto);
-    this.photosSubject.next(this.photos);
-    this.filterItems('');
+    this.http.post<{name: string}>(this.API_ENDPOINT, newPhoto).pipe(
+      catchError(error => this.handleError(error))
+    ).subscribe((response: {name: string}) => {
+      const currentPhotos = this.photosSubject.getValue();
+      const addedPhoto: Photo = { ...newPhoto, id: response.name };
+      this.photosSubject.next([...currentPhotos, addedPhoto]);
+    });
+  }
+
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'Невідома помилка HTTP.';
+
+    if (error.error instanceof ErrorEvent) {
+      // Клієнтська помилка або помилка мережі
+      errorMessage = `Помилка клієнта: ${error.error.message}`;
+    } else {
+      // Бекенд поверта код помилки (наприклад, 404, 500)
+      errorMessage = `Помилка сервера: ${error.status} - ${error.statusText || ''}. ${error.error?.error || ''}`;
+    }
+
+    console.error('HTTP ERROR:', errorMessage);
+
+    // Повернення Observable помилки, який буде оброблено в компоненті
+    return throwError(() => new Error(errorMessage));
   }
 }

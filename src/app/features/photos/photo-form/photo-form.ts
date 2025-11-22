@@ -104,13 +104,14 @@ export class PhotoForm implements OnInit {
       const formData = this.photoForm.value;
 
       const newPhoto: Photo = {
-        tags: formData.tags.split(',').map((tag: string) => tag.trim()),
         id: Date.now().toString(),
-        views: 0,
-        // photoData.url зберігає Base64-рядок
+        title: formData.title,
+        author: formData.author,
         pImage: formData.pImage,
-        uploadDate: new Date(),
-        ...formData,
+        isPremium: formData.isPremium,
+        tags: formData.tags.split(',').map((tag: string) => tag.trim()).filter((tag: string) => tag.length > 0),
+        views: 0, // <-- Явно встановлюємо початкове значення
+        uploadDate: new Date(), // <-- Явно встановлюємо поточну дату
       };
 
       this.photoService.addPhoto(newPhoto);
