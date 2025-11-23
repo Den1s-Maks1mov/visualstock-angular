@@ -1,3 +1,31 @@
-<header style="background-color: #333; color: white; padding: 15px;">
-  <h1>{{ appTitle }}</h1>
+<header style="background-color: #343a40; color: white; padding: 15px;">
+
+  <div class="container-fluid d-flex justify-content-between align-items-center">
+    <div class="flex-row-container">
+    <a class="navbar-brand header-title-style" [routerLink]="['/photos']">
+      VisualStock - discover our world
+    </a>
+
+    <div class="d-flex align-items-center">
+
+      <ng-container *ngIf="isAuthenticated$ | async as isAuthenticated">
+        <button
+          *ngIf="isAuthenticated"
+          (click)="onLogout()"
+          (mouseenter)="onMouseEnter()"
+          (mouseleave)="onMouseLeave()"
+          class="btn btn-secondary btn-user-action">
+          {{ isHovering ? 'Вихід' : (currentUserLogin$ | async) }}
+        </button>
+
+        <a
+          *ngIf="!isAuthenticated"
+          [routerLink]="['/login']"
+          class="btn btn-secondary btn-user-action">
+          Авторизація
+        </a>
+      </ng-container>
+    </div>
+    </div>
+  </div>
 </header>

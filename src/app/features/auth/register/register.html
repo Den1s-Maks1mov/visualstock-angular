@@ -1,0 +1,67 @@
+<div class="container mt-5" >
+  <div class="mb-4">
+    <a [routerLink]="['/photos']" class="btn btn-secondary btn-back-styled">
+      &#8592; Назад до списку
+    </a>
+  </div>
+
+  <div class="d-flex justify-content-center">
+    <div class="details-container card p-4 shadow-lg mx-auto form-details-container form-center-container" style="max-width: 500px;">
+      <h2 class="card-title text-center mb-4">Реєстрація акаунту</h2>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()">
+
+        <div *ngIf="errorMessage" class="alert alert-danger text-center mb-4" role="alert">
+          {{ errorMessage }}
+        </div>
+
+        <div class="mb-4 field-spacing">
+          <label for="username" class="form-label form-label-dark">Нікнейм</label>
+          <input type="text" id="username" class="form-control" formControlName="username">
+          <div *ngIf="username?.invalid && username?.touched" class="text-danger mt-1">
+            <small *ngIf="username?.errors?.['required']">Нікнейм є обов'язковим.</small>
+            <small *ngIf="username?.errors?.['minlength']">Мінімум 3 символи.</small>
+          </div>
+        </div>
+
+        <div class="mb-4 field-spacing">
+          <label for="email" class="form-label form-label-dark">Пошта (Логін)</label>
+          <input type="email" id="email" class="form-control" formControlName="email">
+          <div *ngIf="email?.invalid && email?.touched" class="text-danger mt-1">
+            <small *ngIf="email?.errors?.['required']">Пошта є обов'язковою.</small>
+            <small *ngIf="email?.errors?.['email']">Некоректний формат пошти.</small>
+          </div>
+        </div>
+
+        <div class="mb-4 field-spacing">
+          <label for="password" class="form-label form-label-dark">Пароль</label>
+          <input type="password" id="password" class="form-control" formControlName="password">
+          <div *ngIf="password?.invalid && password?.touched" class="text-danger mt-1">
+            <small *ngIf="password?.errors?.['required']">Пароль є обов'язковим.</small>
+            <small *ngIf="password?.errors?.['minlength']">Мінімум 6 символів.</small>
+          </div>
+        </div>
+
+        <div class="mb-4 field-spacing">
+          <label for="confirmPassword" class="form-label form-label-dark">Повторний пароль</label>
+          <input type="password" id="confirmPassword" class="form-control" formControlName="confirmPassword">
+          <div *ngIf="confirmPassword?.invalid && confirmPassword?.touched" class="text-danger mt-1">
+            <small *ngIf="confirmPassword?.errors?.['required']">Повторний пароль є обов'язковим.</small>
+            <small *ngIf="confirmPassword?.errors?.['passwordsNotMatching']">Паролі не співпадають.</small>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <button type="submit" class="btn-submit-action" [disabled]="registerForm.invalid || isLoading">
+            <span *ngIf="isLoading">Реєстрація...</span>
+            <span *ngIf="!isLoading">Зареєструватися</span>
+          </button>
+        </div>
+
+        <div class="text-center mt-3">
+          <p class="form-label-dark">Вже маєте акаунт? <a [routerLink]="['/login']">Увійти</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
