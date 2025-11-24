@@ -38,6 +38,10 @@ export class PhotosList implements OnInit{
 
   constructor(private photoData: PhotoData) { };
 
+  handlePhotoSelection(photo: Photo): void {
+    console.log(`[EVENT] Обрано фотографію: ${photo.title} (ID: ${photo.id}). Переглядів: ${photo.views}`);
+  }
+
   ngOnInit(): void {
     this.photoData.fetchPhotos().subscribe();
     this.photos$ = this.photoData.photos$;

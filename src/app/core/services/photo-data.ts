@@ -23,7 +23,7 @@ const ensureTagsArray = (tagsData: any): string[] => {
 
 
 export class PhotoData {
-  private   photos: Photo[] = [];
+  private photos: Photo[] = [];
   private API_ENDPOINT = 'photos.json';
 
   private photosSubject = new BehaviorSubject<Photo[]>([]);
@@ -115,16 +115,12 @@ export class PhotoData {
     let errorMessage = 'Невідома помилка HTTP.';
 
     if (error.error instanceof ErrorEvent) {
-      // Клієнтська помилка або помилка мережі
       errorMessage = `Помилка клієнта: ${error.error.message}`;
     } else {
-      // Бекенд поверта код помилки (наприклад, 404, 500)
       errorMessage = `Помилка сервера: ${error.status} - ${error.statusText || ''}. ${error.error?.error || ''}`;
     }
 
     console.error('HTTP ERROR:', errorMessage);
-
-    // Повернення Observable помилки, який буде оброблено в компоненті
     return throwError(() => new Error(errorMessage));
   }
 }

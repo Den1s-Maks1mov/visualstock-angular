@@ -17,7 +17,8 @@
   <div class="flex-row-container">
 
     <app-photo-card *ngFor="let photo of photos$ | async"
-                    [photoData]="photo">
+                    [photoData]="photo"
+                    (onSelect)="handlePhotoSelection($event)">
     </app-photo-card>
 
     <ng-template *ngIf="!(photos$ | async)?.length">

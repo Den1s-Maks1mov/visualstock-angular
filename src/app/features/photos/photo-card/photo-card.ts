@@ -15,4 +15,6 @@ import { CardHover } from '../../../shared/directives/card-hover';
 
 export class PhotoCard {
   @Input() photoData!: Photo;
+  @Output() onSelect = new EventEmitter<Photo>();
+
 }
